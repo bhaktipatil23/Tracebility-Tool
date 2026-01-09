@@ -149,22 +149,6 @@ export default function MaterialsPage() {
           </span>
         );
       }
-    },
-    {
-      accessorKey: 'createdAt',
-      header: 'Created',
-      cell: ({ row }: any) => (
-        <span className="text-sm text-gray-600">{formatDate(row.original.createdAt)}</span>
-      )
-    },
-    {
-      id: 'actions',
-      header: 'Actions',
-      cell: ({ row }: any) => (
-        <a href={`/materials/${row.original.id}`} className="text-sm text-blue-600 hover:underline">
-          view
-        </a>
-      )
     }
   ];
 

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { formatWeight, cn } from '@/lib/utils';
 import { InventoryByCategory, WasteCategory, ProductType } from '@/lib/types';
@@ -98,6 +99,7 @@ export default function InventoryPage() {
   const [selectedCategory, setSelectedCategory] = useState<WasteCategory | 'ALL'>('ALL');
   const [expandedCategories, setExpandedCategories] = useState<Set<WasteCategory>>(new Set());
   const [expandedSubCategories, setExpandedSubCategories] = useState<Set<string>>(new Set());
+  const [selectedSubCategory, setSelectedSubCategory] = useState<any>(null);
   const [dateRange, setDateRange] = useState<string>('THIS_MONTH');
 
   const handleDateRangeChange = (range: string) => {
@@ -341,8 +343,8 @@ export default function InventoryPage() {
                   </CardHeader>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <CardContent className="pt-0 bg-gradient-to-br from-blue-50/30 to-blue-50/30">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
+                  <CardContent className="pt-0 bg-gradient-to-br from-gray-50/50 to-gray-50/50">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 p-6">
                       {subCategories[category.category]?.map((subCat) => {
                         const totalAmount = subCat.weight * 15;
                         const subCategoryKey = `${category.category}-${subCat.value}`;
@@ -351,71 +353,93 @@ export default function InventoryPage() {
                         return (
                           <div key={subCategoryKey} className="space-y-2">
                             <div
-                              className="inventory-item-card cursor-pointer hover:shadow-lg transition-all duration-200"
-                              onClick={() => toggleSubCategory(subCategoryKey)}
+                              className="bg-white rounded-lg border border-gray-200 p-4 cursor-pointer hover:shadow-md hover:border-blue-300 transition-all duration-300 transform hover:-translate-y-1"
+                              onClick={() => {
+                                if (subCat.subItems && subCat.subItems.length > 0) {
+                                  setSelectedSubCategory(subCat);
+                                } else {
+                                  toggleSubCategory(subCategoryKey);
+                                }
+                              }}
                             >
-                              <div className="item-header">
-                                <div>
-                                  <h4 className="text-lg font-bold flex items-center gap-2 mb-1" style={{ color: '#01298a' }}>
-                                    <span className="text-lg">{subCat.symbol}</span>
-                                    {subCat.label}
-                                    {isSubExpanded ? (
-                                      <ChevronDown className="h-4 w-4" style={{ color: '#01298a' }} />
-                                    ) : (
-                                      <ChevronRight className="h-4 w-4" style={{ color: '#01298a' }} />
-                                    )}
-                                  </h4>
-                                </div>
-                              </div>
-                              
-                              <div className="item-metrics mt-2">
-                                <div className="grid grid-cols-2 gap-2">
-                                  <div className="text-center p-2 rounded-lg" style={{ backgroundColor: '#e6f0ff', border: '1px solid #b3d1ff' }}>
-                                    <div className="text-lg font-bold" style={{ color: '#01298a' }}>{formatWeight(subCat.weight)}</div>
-                                    <div className="text-xs font-semibold" style={{ color: '#01298a' }}>Weight</div>
+                              {/* Header with icon and title */}
+                              <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-md flex items-center justify-center text-white text-sm font-bold shadow-sm">
+                                    {subCat.symbol}
                                   </div>
-                                  <div className="text-center p-2 rounded-lg" style={{ backgroundColor: '#e6f0ff', border: '1px solid #b3d1ff' }}>
-                                    <div className="text-lg font-bold" style={{ color: '#01298a' }}>₹{totalAmount.toLocaleString()}</div>
-                                    <div className="text-xs font-semibold" style={{ color: '#01298a' }}>Value</div>
+                                  <div>
+                                    <h4 className="text-sm font-bold text-gray-900 mb-0.5">
+                                      {subCat.label}
+                                    </h4>
+                                    <div className="flex items-center gap-1 text-gray-500">
+                                      <span className="text-xs">
+                                        {subCat.subItems && subCat.subItems.length > 0 ? 'Click to view details' : 'Click to expand'}
+                                      </span>
+                                      {isSubExpanded ? (
+                                        <ChevronDown className="h-3 w-3" />
+                                      ) : (
+                                        <ChevronRight className="h-3 w-3" />
+                                      )}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                               
-                              <div className="mt-2 p-2 rounded-xl" style={{ backgroundColor: '#e6f0ff', border: '1px solid #b3d1ff' }}>
-                                <div className="flex justify-between items-center">
-                                  <span className="text-xs font-bold" style={{ color: '#01298a' }}>Rate:</span>
-                                  <span className="text-sm font-bold" style={{ color: '#01298a' }}>₹15.00/kg</span>
+                              {/* Main metrics */}
+                              <div className="space-y-3">
+                                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                                  <div className="text-center flex-1">
+                                    <div className="text-lg font-bold text-gray-900">{formatWeight(subCat.weight)}</div>
+                                    <div className="text-xs text-gray-600 font-medium">Weight</div>
+                                  </div>
+                                  <div className="w-px h-8 bg-gray-300 mx-3"></div>
+                                  <div className="text-center flex-1">
+                                    <div className="text-lg font-bold text-green-600">₹{totalAmount.toLocaleString()}</div>
+                                    <div className="text-xs text-gray-600 font-medium">Value</div>
+                                  </div>
+                                </div>
+                                
+                                {/* Rate section */}
+                                <div className="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 rounded border border-blue-200 w-fit">
+                                  <span className="text-xs font-semibold text-blue-800">Rate:</span>
+                                  <span className="text-xs font-bold text-blue-900">₹15.00/kg</span>
                                 </div>
                               </div>
                             </div>
                             
                             {isSubExpanded && subCat.subItems && (
-                              <div className="ml-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                              <div className="ml-0 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 mt-6 p-4 bg-gray-50/50 rounded-lg">
                                 {subCat.subItems.map((subItem) => {
                                   const subItemAmount = subItem.weight * 15;
                                   return (
                                     <div
                                       key={`${subCategoryKey}-${subItem.value}`}
-                                      className="p-4 rounded-lg border" 
-                                      style={{ backgroundColor: '#e6f0ff', borderColor: '#b3d1ff', minHeight: '140px' }}
+                                      className="bg-white rounded-md border border-gray-200 p-3 hover:shadow-sm transition-all duration-200 hover:border-blue-300"
                                     >
                                       <div className="flex flex-col h-full">
-                                        <div className="flex items-center justify-center mb-3">
-                                          <span className="text-3xl">{subItem.symbol}</span>
-                                        </div>
-                                        <div className="text-center mb-3">
-                                          <h5 className="text-sm font-bold truncate" style={{ color: '#01298a' }}>
+                                        {/* Icon and title */}
+                                        <div className="flex items-center gap-2 mb-3">
+                                          <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-blue-600 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                                            {subItem.symbol}
+                                          </div>
+                                          <h5 className="text-xs font-bold text-gray-900 truncate">
                                             {subItem.label}
                                           </h5>
                                         </div>
-                                        <div className="grid grid-cols-2 gap-2 text-center">
-                                          <div className="p-2 rounded" style={{ backgroundColor: '#ffffff', border: '1px solid #b3d1ff' }}>
-                                            <div className="text-sm font-bold" style={{ color: '#01298a' }}>{formatWeight(subItem.weight)}</div>
-                                            <div className="text-xs font-semibold" style={{ color: '#01298a' }}>Weight</div>
-                                          </div>
-                                          <div className="p-2 rounded" style={{ backgroundColor: '#ffffff', border: '1px solid #b3d1ff' }}>
-                                            <div className="text-sm font-bold" style={{ color: '#01298a' }}>₹{subItemAmount.toLocaleString()}</div>
-                                            <div className="text-xs font-semibold" style={{ color: '#01298a' }}>Value</div>
+                                        
+                                        {/* Metrics */}
+                                        <div className="space-y-2 flex-1">
+                                          <div className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
+                                            <div className="text-center flex-1">
+                                              <div className="text-sm font-bold text-gray-900">{formatWeight(subItem.weight)}</div>
+                                              <div className="text-xs text-gray-600 font-medium">Weight</div>
+                                            </div>
+                                            <div className="w-px h-6 bg-gray-300 mx-2"></div>
+                                            <div className="text-center flex-1">
+                                              <div className="text-sm font-bold text-green-600">₹{subItemAmount.toLocaleString()}</div>
+                                              <div className="text-xs text-gray-600 font-medium">Value</div>
+                                            </div>
                                           </div>
                                         </div>
                                       </div>
@@ -447,6 +471,61 @@ export default function InventoryPage() {
           </Card>
         )}
       </div>
+
+      {/* Popup Modal for Sub-Items */}
+      <Dialog open={!!selectedSubCategory} onOpenChange={() => setSelectedSubCategory(null)}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-md flex items-center justify-center text-white text-sm font-bold">
+                {selectedSubCategory?.symbol}
+              </div>
+              {selectedSubCategory?.label} Details
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedSubCategory?.subItems && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+              {selectedSubCategory.subItems.map((subItem: any) => {
+                const subItemAmount = subItem.weight * 15;
+                return (
+                  <div
+                    key={subItem.value}
+                    className="bg-white rounded-md border border-gray-200 p-3 hover:shadow-sm transition-all duration-200 hover:border-blue-300"
+                  >
+                    <div className="flex flex-col h-full">
+                      {/* Icon and title */}
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-blue-600 rounded-md flex items-center justify-center text-white text-xs font-bold">
+                          {subItem.symbol}
+                        </div>
+                        <h5 className="text-xs font-bold text-gray-900 truncate">
+                          {subItem.label}
+                        </h5>
+                      </div>
+                      
+                      {/* Metrics */}
+                      <div className="space-y-2 flex-1">
+                        <div className="flex items-center justify-between p-2 bg-gray-50 rounded-md">
+                          <div className="text-center flex-1">
+                            <div className="text-sm font-bold text-gray-900">{formatWeight(subItem.weight)}</div>
+                            <div className="text-xs text-gray-600 font-medium">Weight</div>
+                          </div>
+                          <div className="w-px h-6 bg-gray-300 mx-2"></div>
+                          <div className="text-center flex-1">
+                            <div className="text-sm font-bold text-green-600">₹{subItemAmount.toLocaleString()}</div>
+                            <div className="text-xs text-gray-600 font-medium">Value</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

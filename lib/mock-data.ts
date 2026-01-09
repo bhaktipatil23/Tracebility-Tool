@@ -255,6 +255,54 @@ let packages: Package[] = [
     createdAt: '2025-01-01T14:30:00.000Z',
     createdBy: 'packaging-user',
     notes: 'Requires drying before shipment'
+  },
+  {
+    id: '3',
+    code: 'PKG-250102-0001',
+    name: 'Cotton Blend Mix',
+    address: '789 Processing Unit, Bangalore',
+    wasteCategory: 'POST_CONSUMER',
+    productType: 'UPCYCLING',
+    grossKg: 755.8,
+    tareKg: 35.8,
+    netKg: 720.0,
+    salesRate: 42.25,
+    contamination: [],
+    createdAt: '2025-01-02T09:15:00.000Z',
+    createdBy: 'packaging-user',
+    notes: 'High quality cotton for upcycling'
+  },
+  {
+    id: '4',
+    code: 'PKG-250102-0002',
+    name: 'Denim Collection',
+    address: '321 Textile Hub, Chennai',
+    wasteCategory: 'INDUSTRIAL',
+    productType: 'JEANS',
+    grossKg: 630.2,
+    tareKg: 30.2,
+    netKg: 600.0,
+    salesRate: 38.90,
+    contamination: ['SOILED'],
+    createdAt: '2025-01-02T13:45:00.000Z',
+    createdBy: 'packaging-user',
+    notes: 'Mixed denim grades'
+  },
+  {
+    id: '5',
+    code: 'PKG-250103-0001',
+    name: 'Polyester Waste',
+    address: '654 Recycling Center, Pune',
+    wasteCategory: 'POST_CONSUMER',
+    productType: 'POLYESTER',
+    grossKg: 420.7,
+    tareKg: 20.7,
+    netKg: 400.0,
+    salesRate: 28.50,
+    contamination: [],
+    createdAt: '2025-01-03T11:20:00.000Z',
+    createdBy: 'packaging-user',
+    notes: 'Clean polyester for recycling'
   }
 ];
 

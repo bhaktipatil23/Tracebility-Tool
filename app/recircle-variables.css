@@ -1,0 +1,115 @@
+/* ReCircle Design System Variables */
+:root {
+  /* Primary Brand Colors */
+  --primary-blue: #01298a;
+  --secondary-blue: #012470;
+  --light-blue: #e6f0ff;
+  --header-blue: #01298a;
+  
+  /* Status Colors */
+  --success: #f7f1ee;
+  --success-alt: #f7f1ee;
+  --error: #DF2D16;
+  --error-alt: #B61904;
+  --warning: #E58768;
+  --warning-alt: #ffb74d;
+  --info: #01298a;
+  --info-alt: #012470;
+  --purple: #7158B9;
+  --rose: #D65487;
+  
+  /* Neutral Colors */
+  --text-primary: #201F1E;
+  --text-secondary: #605E5C;
+  --text-muted: #A19F9D;
+  --background: #f6f9ff;
+  --white: #fff;
+  --light-gray: #F3F2F1;
+  --light-gray-alt: #EDEBE9;
+  --border-gray: #D2D0CE;
+  
+  /* Table Colors */
+  --table-header-bg: #e6f0ff;
+  --table-row-even: #f8fafc;
+  --table-border: #eee;
+  
+  /* Typography */
+  --font-body: 'Ubuntu', sans-serif;
+  --font-heading: 'Raleway', sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  
+  /* Font Sizes */
+  --text-xs: 13px;
+  --text-sm: 14px;
+  --text-base: 15px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 28px;
+  --text-4xl: 35px;
+  
+  /* Spacing */
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 20px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 40px;
+  --space-4xl: 52px;
+  --space-5xl: 56px;
+  --space-6xl: 64px;
+  
+  /* Layout */
+  --header-height: 60px;
+  --sidebar-width: 300px;
+  --content-padding: 36px;
+  --card-radius: 12px;
+  --card-radius-sm: 5px;
+  --button-radius: 4px;
+  --input-radius: 6px;
+  
+  /* Shadows */
+  --shadow-card: 0px 0 30px rgba(1, 41, 138, 0.1);
+  --shadow-focus: 0 0 0 2px #9e95ff;
+}
+
+/* Dark Mode Variables */
+.dark {
+  /* Primary Brand Colors - Keep same for brand consistency */
+  --primary-blue: #01298a;
+  --secondary-blue: #012470;
+  --light-blue: #1e293b;
+  --header-blue: #1a1a2e;
+  
+  /* Status Colors - Adjusted for dark mode */
+  --success: #f7f1ee;
+  --success-alt: #f7f1ee;
+  --error: #ef4444;
+  --error-alt: #dc2626;
+  --warning: #f59e0b;
+  --warning-alt: #d97706;
+  --info: #01298a;
+  --info-alt: #012470;
+  --purple: #8b5cf6;
+  --rose: #ec4899;
+  
+  /* Neutral Colors - Dark mode */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --background: #0f172a;
+  --white: #0f172a;
+  --light-gray: #334155;
+  --light-gray-alt: #475569;
+  --border-gray: #475569;
+  
+  /* Table Colors - Dark mode */
+  --table-header-bg: #334155;
+  --table-row-even: #1e293b;
+  --table-border: #475569;
+  
+  /* Shadows - Dark mode */
+  --shadow-card: 0px 0 30px rgba(0, 0, 0, 0.3);
+  --shadow-focus: 0 0 0 2px #8b5cf6;
+}
